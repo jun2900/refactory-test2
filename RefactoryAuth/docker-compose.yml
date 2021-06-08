@@ -1,0 +1,39 @@
+version: '3.7'
+services:
+  #app:
+    #container_name: main_app
+    #build:
+      #context:../
+      #dockerfile:./RefactoryAuth/dockerfile
+    #ports:
+      #- 3000:3000
+    #restart: on-failure
+    #depends_on:
+      #- fullstack-mysql
+    #networks:
+      #- fullstack
+
+  fullstack-mysql:
+    image: mysql
+    container_name: db_mysql
+    environment:
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_PASSWORD}
+    volumes:
+      - database_mysql:/var/lib/mysql
+    network_mode: host
+
+  phpmyadmin:
+    image: phpmyadmin
+    container_name: phpmyadmin_container
+    depends_on:
+      - fullstack-mysql
+    environment:
+      - PMA_ARBITRARY=1
+    restart: always
+    network_mode: host
+
+volumes:
+  database_mysql:
