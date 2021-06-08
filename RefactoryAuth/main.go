@@ -18,7 +18,7 @@ import (
 )
 
 var (
-	_                 = godotenv.Load()
+	_                 = godotenv.Load(".env")
 	googleOauthConfig = &oauth2.Config{
 		RedirectURL:  "http://localhost:3000/callback",
 		ClientID:     os.Getenv("GOOGLE_CLIENT_ID"),
@@ -55,7 +55,7 @@ func main() {
 	app.Get("/callback", handleCallback)
 	app.Get("/users", getUsers)
 
-	app.Listen(":3000")
+	app.Listen(os.Getenv("PORT"))
 }
 
 func handleLogin(c *fiber.Ctx) error {
